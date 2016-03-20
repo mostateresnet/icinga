@@ -29,3 +29,9 @@ end
 apt_package 'mysql-server' do
   action :install
 end
+
+# Install MySQL Client
+apt_package 'mysql-client' do
+  action :install
+end
+
