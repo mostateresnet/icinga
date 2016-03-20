@@ -17,5 +17,10 @@ bash 'add icinga repository' do
   apt-get update
   EOH
   action :run
-  not_if { File.exist? ('/etc/apt/sources.list.d/formorer-icinga-trusty.list')}
+  not_if { File.exist?('/etc/apt/sources.list.d/formorer-icinga-trusty.list')}
+end
+
+# Install icinga2 package
+apt_package 'icinga2' do
+  action :install
 end
