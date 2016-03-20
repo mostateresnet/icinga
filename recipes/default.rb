@@ -24,3 +24,8 @@ end
 apt_package 'icinga2' do
   action :install
 end
+
+# Install MySQL Server
+apt_package 'mysql-server' do
+  action :install
+end
