@@ -17,5 +17,5 @@ bash 'add icinga repository' do
   apt-get update
   EOH
   action :run
-  not_if { File.exists?('/etc/apt/sources.list.d/formorer-icinga-trusty.list')}
+  not_if { File.exist? ('/etc/apt/sources.list.d/formorer-icinga-trusty.list')}
 end
