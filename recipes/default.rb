@@ -9,3 +9,13 @@
 apt_package 'software-properties-common' do
   action :install
 end
+
+# Configure apt-get to find icinga packages
+bash 'add icinga repository' do
+  code <<-EOH
+  add-apt-repository ppa:formorer/icinga
+  apt-get update
+  EOH
+  action :run
+  not_if { File.exists?('/etc/apt/sources.list.d/formorer-icinga-trusty.list')}
+end
