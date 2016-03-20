@@ -35,3 +35,7 @@ apt_package 'mysql-client' do
   action :install
 end
 
+# Install icinga2 mysql package
+apt_package 'icinga2-ido-mysql' do
+  action :install
+end
