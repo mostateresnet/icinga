@@ -31,7 +31,7 @@ apt_package 'mysql-server' do
 end
 
 # Install MySQL Client
-apt_package 'mysql-client'
+apt_package 'mysql-client' do
   action :install
 end
 
@@ -56,5 +56,13 @@ bash 'execute-icinga-sql' do
   code <<-EOH
   mysql -u root < /tmp/icinga-sql.sql
   EOH
+  notifies :run , 'bash[create-icinga-database-schema]', :immediately
+end
+
+bash 'create-icinga-database-schema' do
+  code <<-EOH
+  mysql -u root icinga < /usr/share/icinga2-ido-mysql/schema/mysql.sql
+  EOH
+  action :nothing
 end
 
