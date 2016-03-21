@@ -17,7 +17,7 @@ bash 'add icinga repository' do
   apt-get update
   EOH
   action :run
-  not_if { File.exist?('/etc/apt/sources.list.d/formorer-icinga-trusty.list')}
+  not_if { File.exist?('/etc/apt/sources.list.d/formorer-icinga-trusty.list') }
 end
 
 # Install icinga2 package
@@ -31,11 +31,30 @@ apt_package 'mysql-server' do
 end
 
 # Install MySQL Client
-apt_package 'mysql-client' do
+apt_package 'mysql-client'
   action :install
 end
 
-# Install icinga2 mysql package
+# Install icinga2 MySQL package
 apt_package 'icinga2-ido-mysql' do
   action :install
+  notifies :create, 'template[/tmp/icinga-sql.sql]', :immediately
 end
+
+# place .sql file on local machiene
+template '/tmp/icinga-sql.sql' do
+  action :nothing
+  source 'icinga-sql.erb'
+  owner 'root'
+  mode '0755'
+  notifies :run, 'bash[execute-icinga-sql]', :immediately
+end
+
+# Execute SQL command to create icinga database
+bash 'execute-icinga-sql' do
+  action :nothing
+  code <<-EOH
+  mysql -u root < /tmp/icinga-sql.sql
+  EOH
+end
+
