@@ -5,6 +5,15 @@
 #
 # Copyright (c) 2016 The Authors, All Rights Reserved.
 
+# Run apt-get update
+bash 'run-apt-get-update' do
+  code <<-EOH
+  apt-get update
+  EOH
+  action :run
+end
+
+
 # Install software-propert9es-common so we can use add-apt-repository later
 apt_package 'software-properties-common' do
   action :install
@@ -56,13 +65,31 @@ bash 'execute-icinga-sql' do
   code <<-EOH
   mysql -u root < /tmp/icinga-sql.sql
   EOH
-  notifies :run , 'bash[create-icinga-database-schema]', :immediately
+  notifies :run, 'bash[create-icinga-database-schema]', :immediately
 end
 
+# Configure icinga
 bash 'create-icinga-database-schema' do
   code <<-EOH
   mysql -u root icinga < /usr/share/icinga2-ido-mysql/schema/mysql.sql
   EOH
   action :nothing
+  notifies :run, 'bash[enable-ido-mysql'], :immediately
 end
+
+bash 'enable-ido-mysql' do
+  code <<-EOH
+  icinga2 feature enable ido-mysql
+  EOH
+  action :nothing
+  notifies :run, 'bash[restart-icinga2-service']
+end
+
+bash 'restart-icinga2-service' do
+  code <<-EOH
+  service icinga2 restart
+  EOH
+  action :nothing
+end
+
 
