@@ -97,5 +97,26 @@ end
 # install apache
 apt_package 'apache2' do
   action :install
+  notifies :run, 'bash[enable-firewall-rules]'
+end
+
+# enable http and https traffic
+bash 'enable-firewall-rules' do
+  code <<-EOH
+  iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+  iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+  EOH
+  action :nothing
+  notifies :run, 'bash[enable-external-command-pipe]'
+end
+
+# Set up external command pipe
+bash 'enable-external-command-pipe' do
+  code <<-EOH
+  icinga2 feature enable command
+  service icinga2 restart
+  usermod -a -G nagios www-data
+  EOH
+  action :nothing
 end
 
