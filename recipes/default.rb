@@ -74,7 +74,7 @@ bash 'create-icinga-database-schema' do
   mysql -u root icinga < /usr/share/icinga2-ido-mysql/schema/mysql.sql
   EOH
   action :nothing
-  notifies :run, 'bash[enable-ido-mysql'], :immediately
+  notifies :run, 'bash[enable-ido-mysql]', :immediately
 end
 
 bash 'enable-ido-mysql' do
@@ -82,7 +82,7 @@ bash 'enable-ido-mysql' do
   icinga2 feature enable ido-mysql
   EOH
   action :nothing
-  notifies :run, 'bash[restart-icinga2-service']
+  notifies :run, 'bash[restart-icinga2-service]'
 end
 
 bash 'restart-icinga2-service' do
