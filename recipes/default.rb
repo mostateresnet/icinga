@@ -77,6 +77,7 @@ bash 'create-icinga-database-schema' do
   notifies :run, 'bash[enable-ido-mysql]', :immediately
 end
 
+# enable ido sql feature
 bash 'enable-ido-mysql' do
   code <<-EOH
   icinga2 feature enable ido-mysql
@@ -85,6 +86,7 @@ bash 'enable-ido-mysql' do
   notifies :run, 'bash[restart-icinga2-service]'
 end
 
+# restart icinga service
 bash 'restart-icinga2-service' do
   code <<-EOH
   service icinga2 restart
@@ -92,4 +94,8 @@ bash 'restart-icinga2-service' do
   action :nothing
 end
 
+# install apache
+apt_package 'apache2' do
+  action :install
+end
 
