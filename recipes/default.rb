@@ -120,3 +120,6 @@ bash 'enable-external-command-pipe' do
   action :nothing
 end
 
+apt_package 'icingaweb2' do
+  action :install
+end
