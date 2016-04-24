@@ -134,6 +134,7 @@ apt_package 'icingaweb2' do
   action :install
 end
 
+# Add icingaweb2 user to system group
 bash 'add-icingaweb2-to-system-group' do
   code <<-EOH
   addgroup --system icingaweb2
