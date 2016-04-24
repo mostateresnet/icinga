@@ -278,8 +278,17 @@ template '/etc/apache2/ssl/apache.key' do
   action :create
 end
 
-
-
 # Assign the server's hostname to a variable
 hostname = Socket.gethostname
+
+# Place default-ssl.conf on local machine
+template '/etc/apache2/sites-available/default-ssl.conf' do
+  source 'apache-default-ssl.erb'
+  owner 'root'
+  mode '0755'
+  action :create
+  variables({
+    :host_name => hostname
+  })
+end
 
