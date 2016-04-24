@@ -97,8 +97,18 @@ end
 # install apache
 apt_package 'apache2' do
   action :install
+  notifies :run, 'bash[enable-ssl]'
+end
+
+# Enable SSL
+bash 'enable-ssl' do
+  code <<-EOH
+  a2enmod ssl
+  EOH
+  action :nothing
   notifies :run, 'bash[enable-firewall-rules]'
 end
+
 
 # enable http and https traffic
 bash 'enable-firewall-rules' do
@@ -243,3 +253,6 @@ template '/etc/icingaweb2/monitoring/commandtransports.ini' do
   mode '0755'
   action :create
 end
+
+# Assign the server's hostname to a variable
+hostname = Socket.gethostname
