@@ -254,5 +254,13 @@ template '/etc/icingaweb2/monitoring/commandtransports.ini' do
   action :create
 end
 
+directory '/etc/apache2/ssl' do
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
+end
+
 # Assign the server's hostname to a variable
 hostname = Socket.gethostname
+
