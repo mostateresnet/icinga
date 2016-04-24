@@ -103,7 +103,7 @@ end
 # Disable page speed module in apache
 bash 'disable-page-speed-module' do
   code <<-EOH
-  sudo sed -i '$ a\ModPagespeedDisallow "*/icingaweb2/*"' /etc/apache2/apache2.conf
+  sudo sed -i "$ a\\ModPagespeedDisallow '*/icingaweb2/*'" /etc/apache2/apache2.conf
   EOH
   action :nothing
   notifies :run, 'bash[enable-firewall-rules]'
@@ -129,6 +129,17 @@ bash 'enable-external-command-pipe' do
   action :nothing
 end
 
+# Install icingaweb2 package
 apt_package 'icingaweb2' do
   action :install
 end
+
+bash 'add-icingaweb2-to-system-group' do
+  code <<-EOH
+  addgroup --system icingaweb2
+  usermod -a -G icingaweb2 www-data
+  service apache2 restart
+  EOH
+  action :run
+end
+
