@@ -2,7 +2,7 @@
         <VirtualHost _default_:443>
                 ServerAdmin resnet@missouristate.edu
                 ServerName <%= @host_name %>.missouristate.edu
-                ServerAlias www.<%= @host_name %>.missouristate.edu
+                ServerAlias <%= @host_name %>.missouristate.edu
 
                 DocumentRoot /var/www/html
 
