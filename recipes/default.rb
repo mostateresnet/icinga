@@ -179,6 +179,7 @@ template '/tmp/icingaweb2-add-admin-sql.sql' do
   action :create
   notifies :run, 'bash[execute-icingaweb2-add-admin-sql]'
 end
+
 # Execute SQL command to create icingaweb2 administrator account
 bash 'execute-icingaweb2-add-admin-sql' do
   code <<-EOH
@@ -187,4 +188,67 @@ bash 'execute-icingaweb2-add-admin-sql' do
   action :nothing
 end
 
+# Place .ini file at /etc/icingaweb2/resources.ini
+template '/etc/icingaweb2/resources.ini' do
+  source 'icingaweb2-resources-ini.erb'
+  owner 'root'
+  mode '0755'
+  action :create
+end
 
+# Place .ini file at /etc/icingaweb2/config.ini
+template '/etc/icingaweb2/config.ini' do
+  source 'icingaweb2-config-ini.erb'
+  owner 'root'
+  mode '0755'
+  action :create
+end
+
+# Place .ini file at /etc/icingaweb2/authentication.ini
+template '/etc/icingaweb2/authentication.ini' do
+  source 'icingaweb2-authentication-ini.erb'
+  owner 'root'
+  mode '0755'
+  action :create
+end
+
+# Place .ini file at /etc/icingaweb2/roles.ini
+template '/etc/icingaweb2/roles.ini' do
+  source 'icingaweb2-roles-ini.erb'
+  owner 'root'
+  mode '0755'
+  action :create
+end
+
+# Create directory at /etc/icingaweb2/monitoring
+directory '/etc/icingaweb2/monitoring/' do
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
+end
+
+
+# Place .ini file at /etc/icingaweb2/monitoring/config.ini
+template '/etc/icingaweb2/monitoring/config.ini' do
+  source 'icingaweb2-monitoring-config-ini.erb'
+  owner 'root'
+  mode '0755'
+  action :create
+end
+
+# Place .ini file at /etc/icingaweb2/monitoring/backends.ini
+template '/etc/icingaweb2/monitoring/backends.ini' do
+  source 'icingaweb2-monitoring-backends-ini.erb'
+  owner 'root'
+  mode '0755'
+  action :create
+end
+
+# Place .ini file at /etc/icingaweb2/monitoring/commandtransports.ini
+template '/etc/icingaweb2/monitoring/commandtransports.ini' do
+  source 'icingaweb2-monitoring-commandtransport-ini.erb'
+  owner 'root'
+  mode '0755'
+  action :create
+end
