@@ -290,5 +290,15 @@ template '/etc/apache2/sites-available/default-ssl.conf' do
   variables({
     :host_name => hostname
   })
+  notifies :run, 'bash[enable-ssl-configuration]'
+end
+
+# Enable SSL Configuration
+bash 'enable-ssl-configuration' do
+  code <<-EOH
+  a2ensite default-ssl.conf
+  service apache2 restart
+  EOH
+  action :nothing
 end
 
