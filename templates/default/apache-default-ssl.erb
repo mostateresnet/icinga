@@ -5,6 +5,7 @@
                 ServerAlias <%= @host_name %>.missouristate.edu
 
                 DocumentRoot /var/www/html
+                Redirect / https://<%= @host_name %>.missouristate.edu/icingaweb2/
 
                 # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
                 # error, crit, alert, emerg.
