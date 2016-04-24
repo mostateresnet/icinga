@@ -97,6 +97,15 @@ end
 # install apache
 apt_package 'apache2' do
   action :install
+  notifies :run, 'bash[disable-page-speed-module]'
+end
+
+# Disable page speed module in apache
+bash 'disable-page-speed-module' do
+  code <<-EOH
+  sudo sed -i '$ a\ModPagespeedDisallow "*/icingaweb2/*"' /etc/apache2/apache2.conf
+  EOH
+  action :nothing
   notifies :run, 'bash[enable-firewall-rules]'
 end
 
