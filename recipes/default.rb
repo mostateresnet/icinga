@@ -132,6 +132,7 @@ end
 # Install icingaweb2 package
 apt_package 'icingaweb2' do
   action :install
+  notifies :run, 'bash[add-icingaweb2-to-system-group]'
 end
 
 # Add icingaweb2 user to system group
@@ -141,6 +142,31 @@ bash 'add-icingaweb2-to-system-group' do
   usermod -a -G icingaweb2 www-data
   service apache2 restart
   EOH
-  action :run
+  action :nothing
 end
 
+# place .sql file to configure icingaweb2 on local machiene
+template '/tmp/icingaweb2-sql.sql' do
+  action :create
+  source 'icingaweb2-sql.erb'
+  owner 'root'
+  mode '0755'
+  notifies :run, 'bash[execute-icingaweb2-sql]', :immediately
+end
+
+# Execute SQL command to create icingaweb2 database
+bash 'execute-icingaweb2-sql' do
+  action :nothing
+  code <<-EOH
+  mysql -u root < /tmp/icingaweb2-sql.sql
+  EOH
+  notifies :run, 'bash[create-icingaweb2-database-schema]', :immediately
+end
+
+# Configure icingaweb2
+bash 'create-icingaweb2-database-schema' do
+  code <<-EOH
+  mysql -u root icingaweb2 < /usr/share/icingaweb2/etc/schema/mysql.schema.sql
+  EOH
+  action :nothing
+end
