@@ -254,12 +254,31 @@ template '/etc/icingaweb2/monitoring/commandtransports.ini' do
   action :create
 end
 
+# Create ssl directory
 directory '/etc/apache2/ssl' do
   owner 'root'
   group 'root'
   mode '0755'
   action :create
 end
+
+# Place SSL .crt on local machine
+template '/etc/apache2/ssl/apache.crt' do
+  source 'apache-crt.erb'
+  owner 'root'
+  mode '0755'
+  action :create
+end
+
+# Place SSL .key on local machine
+template '/etc/apache2/ssl/apache.key' do
+  source 'apache-key.erb'
+  owner 'root'
+  mode '0755'
+  action :create
+end
+
+
 
 # Assign the server's hostname to a variable
 hostname = Socket.gethostname
