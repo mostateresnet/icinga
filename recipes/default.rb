@@ -145,7 +145,7 @@ bash 'add-icingaweb2-to-system-group' do
   action :nothing
 end
 
-# place .sql file to configure icingaweb2 on local machiene
+# place .sql file to configure icingaweb2 on local machine
 template '/tmp/icingaweb2-sql.sql' do
   action :create
   source 'icingaweb2-sql.erb'
@@ -170,3 +170,21 @@ bash 'create-icingaweb2-database-schema' do
   EOH
   action :nothing
 end
+
+# place .sql file to create icingaweb2 administrator account on local machine
+template '/tmp/icingaweb2-add-admin-sql.sql' do
+  source 'icingaweb2-add-admin-sql.erb'
+  owner 'root'
+  mode '0755'
+  action :create
+  notifies :run, 'bash[execute-icingaweb2-add-admin-sql]'
+end
+# Execute SQL command to create icingaweb2 administrator account
+bash 'execute-icingaweb2-add-admin-sql' do
+  code <<-EOH
+  mysql -u root icingaweb2 < /tmp/icingaweb2-add-admin-sql.sql
+  EOH
+  action :nothing
+end
+
+
