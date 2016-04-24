@@ -97,7 +97,7 @@ end
 # install apache
 apt_package 'apache2' do
   action :install
-  notifies :run, 'bash[disable-page-speed-module]'
+  notifies :run, 'bash[enable-firewall-rules]'
 end
 
 # enable http and https traffic
