@@ -222,7 +222,7 @@ template '/etc/icingaweb2/roles.ini' do
 end
 
 # Create directory at /etc/icingaweb2/monitoring
-directory '/etc/icingaweb2/monitoring/' do
+directory '/etc/icingaweb2/modules/monitoring/' do
   owner 'root'
   group 'root'
   mode '0755'
@@ -231,7 +231,7 @@ end
 
 
 # Place .ini file at /etc/icingaweb2/monitoring/config.ini
-template '/etc/icingaweb2/monitoring/config.ini' do
+template '/etc/icingaweb2/modules/monitoring/config.ini' do
   source 'icingaweb2-monitoring-config-ini.erb'
   owner 'root'
   mode '0755'
@@ -239,7 +239,7 @@ template '/etc/icingaweb2/monitoring/config.ini' do
 end
 
 # Place .ini file at /etc/icingaweb2/monitoring/backends.ini
-template '/etc/icingaweb2/monitoring/backends.ini' do
+template '/etc/icingaweb2/modules/monitoring/backends.ini' do
   source 'icingaweb2-monitoring-backends-ini.erb'
   owner 'root'
   mode '0755'
@@ -247,7 +247,7 @@ template '/etc/icingaweb2/monitoring/backends.ini' do
 end
 
 # Place .ini file at /etc/icingaweb2/monitoring/commandtransports.ini
-template '/etc/icingaweb2/monitoring/commandtransports.ini' do
+template '/etc/icingaweb2/modules/monitoring/commandtransports.ini' do
   source 'icingaweb2-monitoring-commandtransport-ini.erb'
   owner 'root'
   mode '0755'
