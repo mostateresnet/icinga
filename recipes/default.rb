@@ -324,3 +324,28 @@ template '/etc/php5/apache2/php.ini' do
   })
 end
 
+# Place hosts.conf on local disk
+template '/etc/icinga2/conf.d/hosts.conf' do
+  source 'hosts-conf.erb'
+  owner 'root'
+  mode '0755'
+  action :create
+  notifies :run, 'bash[restart-icinga2-service]'
+end
+
+# Place services.conf on local disk
+template '/etc/icinga2/conf.d/services.conf' do
+  source 'services-conf.erb'
+  owner 'root'
+  mode '0755'
+  action :create
+  notifies :run, 'bash[restart-icinga2-service]'
+end
+
+bash 'restart-icinga2-service' do
+  code <<-EOH
+  service icinga2 restart
+  EOH
+  action :nothing
+end
+
