@@ -5,6 +5,7 @@
 #
 # Copyright (c) 2016 Seth Thoenen, All Rights Reserved.
 
+# Populate hosts variable with servers from data bag
 hosts = data_bag_item('icinga', 'servers')['hosts']
 
 # Place hosts.conf on local disk
@@ -28,12 +29,18 @@ template '/etc/icinga2/conf.d/services.conf' do
   notifies :run, 'bash[restart-icinga2-service]'
 end
 
+# Populate users variable with users from data bag
+users = data_bag_item('icinga', 'users')['users']
+
 # Place users.conf on local disk
 template '/etc/icinga2/conf.d/users.conf' do
   source 'users-conf.erb'
   owner 'root'
   mode '0755'
   action :create
+  variables({
+    :users => users
+  })
   notifies :run, 'bash[restart-icinga2-service]'
 end
 

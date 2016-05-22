@@ -5,15 +5,6 @@
 #
 # Copyright (c) 2016 Seth Thoenen, All Rights Reserved.
 
-# Run apt-get update
-# This needs to be removed before put into priduction
-bash 'run-apt-get-update' do
-  code <<-EOH
-  apt-get update
-  EOH
-  action :run
-end
-
 # Install Icinga2 base configuration
 include_recipe 'icinga::install-icinga2'
 

@@ -4,23 +4,16 @@
  * group 'icingaadmins'.
  */
 
-object User "icingaadmin" {
-  import "generic-user"
-
-  display_name = "Icinga 2 Admin"
-  groups = [ "icingaadmins" ]
-
-  email = "smt10@live.missouristate.edu"
-}
-
-object User "ResNet" {
-  import "generic-user"
-
-  display_name = "ResNet"
-  groups = [ "icingaadmins" ]
-  email = "seththoenen@missouristate.edu"
-}
-
 object UserGroup "icingaadmins" {
   display_name = "Icinga 2 Admin Group"
 }
+
+<% @users.each do |usr, email| %>
+  object User "<%= usr %>" {
+    import "generic-user"
+    display_name = "<%= usr %>"
+    groups = [ "icingaadmins" ]
+    email = "<%= email %>"
+  }
+  
+<% end %>
