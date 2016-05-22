@@ -35,6 +35,16 @@ apt_package 'mysql-client' do
   action :install
 end
 
+# Install Postfix
+apt_package 'postfix' do
+  action :install
+end
+
+# Install mailutils
+apt_package 'mailutils' do
+  action :install
+end
+
 # Install icinga2 MySQL package
 apt_package 'icinga2-ido-mysql' do
   action :install
@@ -83,10 +93,4 @@ bash 'restart-icinga2-service' do
   service icinga2 restart
   EOH
   action :nothing
-end
-
-# install apache
-apt_package 'apache2' do
-  action :install
-  notifies :run, 'bash[enable-ssl]'
 end

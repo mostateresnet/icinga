@@ -5,6 +5,12 @@
 #
 # Copyright (c) 2016 Seth Thoenen, All Rights Reserved.
 
+# install apache
+apt_package 'apache2' do
+  action :install
+  notifies :run, 'bash[enable-ssl]'
+end
+
 # Enable SSL
 bash 'enable-ssl' do
   code <<-EOH
