@@ -5,12 +5,17 @@
 #
 # Copyright (c) 2016 Seth Thoenen, All Rights Reserved.
 
+hosts = data_bag_item('icinga', 'servers')['hosts']
+
 # Place hosts.conf on local disk
 template '/etc/icinga2/conf.d/hosts.conf' do
   source 'hosts-conf.erb'
   owner 'root'
   mode '0755'
   action :create
+  variables({
+    :hosts => hosts
+  })
   notifies :run, 'bash[restart-icinga2-service]'
 end
 
