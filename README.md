@@ -27,4 +27,6 @@ This will add the servers listed to the monitoring service and monitor via ping.
   }
 }
 
+5. Bootstrap an Ubuntu 14.04 LTS server with this cookbook in its run list.
+
 This will send emails to the email addresses listed if servers listed in step 3 go down or come up.
