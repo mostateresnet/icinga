@@ -225,7 +225,7 @@ bash 'enable-ssl-configuration' do
 end
 
 # Update php.ini
-template '/etc/php5/apache2/php.ini' do
+template node['icinga']['php_path'] do
   source 'php-ini.erb'
   owner 'root'
   mode '0755'
